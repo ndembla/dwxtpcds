@@ -786,7 +786,7 @@ create table web_sales
  OUTPUTFORMAT                                       
    'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
  LOCATION                                           
-   's4a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/promotion' 
+   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/promotion' 
  TBLPROPERTIES (                                    
    'bucketing_version'='2',                         
    'transactional'='true',                          
