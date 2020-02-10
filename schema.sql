@@ -1,22 +1,8 @@
-use tpcds_bin_partitioned_orc_10000;
 
  CREATE TABLE `income_band`(                        
    `ib_income_band_sk` bigint,                      
    `ib_lower_bound` int,                            
-   `ib_upper_bound` int)                            
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/income_band' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1562716763');            
+   `ib_upper_bound` int);                            
 
  CREATE TABLE `store_sales`(                        
    `ss_sold_time_sk` bigint,                        
@@ -42,20 +28,7 @@ use tpcds_bin_partitioned_orc_10000;
    `ss_net_paid_inc_tax` decimal(7,2),              
    `ss_net_profit` decimal(7,2))                    
  PARTITIONED BY (                                   
-   `ss_sold_date_sk` bigint)                        
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/store_sales' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1561071099');            
+   `ss_sold_date_sk` bigint);                        
 
  CREATE TABLE `store_returns`(                      
    `sr_return_time_sk` bigint,                      
@@ -78,20 +51,7 @@ use tpcds_bin_partitioned_orc_10000;
    `sr_store_credit` decimal(7,2),                  
    `sr_net_loss` decimal(7,2))                      
  PARTITIONED BY (                                   
-   `sr_returned_date_sk` bigint)                    
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/store_returns' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1561082487');            
+   `sr_returned_date_sk` bigint);                    
 
 create table web_sales
 (
@@ -130,20 +90,7 @@ create table web_sales
     ws_net_profit             decimal(7,2)
 )
  PARTITIONED BY (                                   
-   `ws_sold_date_sk` bigint)                        
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/web_sales' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1561083922');            
+   `ws_sold_date_sk` bigint);                        
 
  CREATE TABLE `web_returns`(                        
    `wr_returned_time_sk` bigint,                    
@@ -170,39 +117,13 @@ create table web_sales
    `wr_account_credit` decimal(7,2),                
    `wr_net_loss` decimal(7,2))                      
  PARTITIONED BY (                                   
-   `wr_returned_date_sk` bigint)                    
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/web_returns' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1561142247');            
+   `wr_returned_date_sk` bigint);                    
 
  CREATE TABLE `inventory`(                          
    `inv_date_sk` bigint,                            
    `inv_item_sk` bigint,                            
    `inv_warehouse_sk` bigint,                       
-   `inv_quantity_on_hand` int)                      
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/inventory' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1562716924')            ;
+   `inv_quantity_on_hand` int);                      
 
  CREATE TABLE `catalog_sales`(                      
    `cs_sold_time_sk` bigint,                        
@@ -239,20 +160,7 @@ create table web_sales
    `cs_net_paid_inc_ship_tax` decimal(7,2),         
    `cs_net_profit` decimal(7,2))                    
  PARTITIONED BY (                                   
-   `cs_sold_date_sk` bigint)                        
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/catalog_sales' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1561409389')            ;
+   `cs_sold_date_sk` bigint);                        
 
  CREATE TABLE `catalog_returns`(                    
    `cr_returned_time_sk` bigint,                    
@@ -282,20 +190,7 @@ create table web_sales
    `cr_store_credit` decimal(7,2),                  
    `cr_net_loss` decimal(7,2))                      
  PARTITIONED BY (                                   
-   `cr_returned_date_sk` bigint)                    
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/catalog_returns' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1561416424')            ;
+   `cr_returned_date_sk` bigint);                    
 
  CREATE TABLE `date_dim`(                           
    `d_date_sk` bigint,                              
@@ -325,20 +220,7 @@ create table web_sales
    `d_current_week` char(1),                        
    `d_current_month` char(1),                       
    `d_current_quarter` char(1),                     
-   `d_current_year` char(1))                        
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/date_dim' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1562716762')           ; 
+   `d_current_year` char(1));                        
 
  CREATE TABLE `time_dim`(                           
    `t_time_sk` bigint,                              
@@ -350,20 +232,7 @@ create table web_sales
    `t_am_pm` char(2),                               
    `t_shift` char(20),                              
    `t_sub_shift` char(20),                          
-   `t_meal_time` char(20))                          
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/time_dim' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1562721807')            ;
+   `t_meal_time` char(20));                          
 
  CREATE TABLE `item`(                               
    `i_item_sk` bigint,                              
@@ -387,20 +256,7 @@ create table web_sales
    `i_units` char(10),                              
    `i_container` char(10),                          
    `i_manager_id` int,                              
-   `i_product_name` char(50))                       
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/item' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1562716935')            ;
+   `i_product_name` char(50));                       
 
  CREATE TABLE `customer`(                           
    `c_customer_sk` bigint,                          
@@ -420,20 +276,7 @@ create table web_sales
    `c_birth_country` varchar(20),                   
    `c_login` char(13),                              
    `c_email_address` char(50),                      
-   `c_last_review_date_sk` bigint)                  
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/customer' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1562716471')            ;
+   `c_last_review_date_sk` bigint);                  
 
  CREATE TABLE `customer_demographics`(              
    `cd_demo_sk` bigint,                             
@@ -444,40 +287,14 @@ create table web_sales
    `cd_credit_rating` char(10),                     
    `cd_dep_count` int,                              
    `cd_dep_employed_count` int,                     
-   `cd_dep_college_count` int)                      
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/customer_demographics' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1562716760')            ;
+   `cd_dep_college_count` int);                      
 
  CREATE TABLE `household_demographics`(             
    `hd_demo_sk` bigint,                             
    `hd_income_band_sk` bigint,                      
    `hd_buy_potential` char(15),                     
    `hd_dep_count` int,                              
-   `hd_vehicle_count` int)                          
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/household_demographics' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1562716763')            ;
+   `hd_vehicle_count` int);                          
 
  CREATE TABLE `customer_address`(                   
    `ca_address_sk` bigint,                          
@@ -492,20 +309,7 @@ create table web_sales
    `ca_zip` char(10),                               
    `ca_country` varchar(20),                        
    `ca_gmt_offset` decimal(5,2),                    
-   `ca_location_type` char(20))                     
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/customer_address' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1562716755')            ;
+   `ca_location_type` char(20));                     
 
  CREATE TABLE `store`(                              
    `s_store_sk` bigint,                             
@@ -536,20 +340,7 @@ create table web_sales
    `s_zip` char(10),                                
    `s_country` varchar(20),                         
    `s_gmt_offset` decimal(5,2),                     
-   `s_tax_percentage` decimal(5,2))                 
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/store' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1562716938')            ;
+   `s_tax_percentage` decimal(5,2));                 
 
  CREATE TABLE `warehouse`(                          
    `w_warehouse_sk` bigint,                         
@@ -565,20 +356,7 @@ create table web_sales
    `w_state` char(2),                               
    `w_zip` char(10),                                
    `w_country` varchar(20),                         
-   `w_gmt_offset` decimal(5,2))                     
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/warehouse' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1562721808')            ;
+   `w_gmt_offset` decimal(5,2));                     
 
  CREATE TABLE `ship_mode`(                          
    `sm_ship_mode_sk` bigint,                        
@@ -586,38 +364,12 @@ create table web_sales
    `sm_type` char(30),                              
    `sm_code` char(10),                              
    `sm_carrier` char(20),                           
-   `sm_contract` char(20))                          
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/ship_mode' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1562716938')            ;
+   `sm_contract` char(20));                          
 
  CREATE TABLE `reason`(                             
    `r_reason_sk` bigint,                            
    `r_reason_id` char(16),                          
-   `r_reason_desc` char(100))                       
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/reason' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1562716937')            ;
+   `r_reason_desc` char(100));                       
 
  CREATE TABLE `call_center`(                        
    `cc_call_center_sk` bigint,                      
@@ -650,20 +402,7 @@ create table web_sales
    `cc_zip` char(10),                               
    `cc_country` varchar(20),                        
    `cc_gmt_offset` decimal(5,2),                    
-   `cc_tax_percentage` decimal(5,2))                
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/call_center' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1562713719')            ;
+   `cc_tax_percentage` decimal(5,2));                
 
  CREATE TABLE `web_page`(                           
    `wp_web_page_sk` bigint,                         
@@ -679,20 +418,7 @@ create table web_sales
    `wp_char_count` int,                             
    `wp_link_count` int,                             
    `wp_image_count` int,                            
-   `wp_max_ad_count` int)                           
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/web_page' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1562721809')            ;
+   `wp_max_ad_count` int);                           
 
  CREATE TABLE `catalog_page`(                       
    `cp_catalog_page_sk` bigint,                     
@@ -703,20 +429,7 @@ create table web_sales
    `cp_catalog_number` int,                         
    `cp_catalog_page_number` int,                    
    `cp_description` varchar(100),                   
-   `cp_type` varchar(100))                          
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/catalog_page' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1562713720')            ;
+   `cp_type` varchar(100));                          
 
  CREATE TABLE `web_site`(                           
    `web_site_sk` bigint,                            
@@ -744,20 +457,7 @@ create table web_sales
    `web_zip` char(10),                              
    `web_country` varchar(20),                       
    `web_gmt_offset` decimal(5,2),                   
-   `web_tax_percentage` decimal(5,2))               
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's3a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/web_site' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1562723457')            ;
+   `web_tax_percentage` decimal(5,2));               
 
  CREATE TABLE `promotion`(                          
    `p_promo_sk` bigint,                             
@@ -778,17 +478,4 @@ create table web_sales
    `p_channel_demo` char(1),                        
    `p_channel_details` varchar(100),                
    `p_purpose` char(15),                            
-   `p_discount_active` char(1))                     
- ROW FORMAT SERDE                                   
-   'org.apache.hadoop.hive.ql.io.orc.OrcSerde'      
- STORED AS INPUTFORMAT                              
-   'org.apache.hadoop.hive.ql.io.orc.OrcInputFormat'  
- OUTPUTFORMAT                                       
-   'org.apache.hadoop.hive.ql.io.orc.OrcOutputFormat' 
- LOCATION                                           
-   's4a://dwxtpcds-9n4f-dwx-managed/clusters/env-gd9n4f/warehouse-1575919490-dwpb/warehouse/tablespace/managed/hive/tpcds_bin_partitioned_orc_10000.db/promotion' 
- TBLPROPERTIES (                                    
-   'bucketing_version'='2',                         
-   'transactional'='true',                          
-   'transactional_properties'='default',            
-   'transient_lastDdlTime'='1562716936')            
+   `p_discount_active` char(1));                     
