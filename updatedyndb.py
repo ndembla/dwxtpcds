@@ -1,42 +1,59 @@
+#!/bin/python
 import boto3
 from botocore.exceptions import ClientError
 
+DEBUG=True
+
 dynamodb = boto3.resource('dynamodb', region_name='us-west-2')
 
-table = dynamodb.Table('dwxtpcds-9n4f-dwx-managed')
+table = dynamodb.Table('dwxtpcds30-wwgq-dwx-managed')
 
-response = table.scan(
-ProjectionExpression='#k,#s',
-ExpressionAttributeNames={
-'#k' : 'parent', #partition key
-'#s' : 'child' #sort key
-}
-)
+exclusiveStartKey = None
 
-items = response['Items']
-
-for item in items:
-try:
- response = table.update_item(
- Key=item,
- UpdateExpression='SET #a = :ath',
- ConditionExpression='#d = :t and NOT begins_with(#s, :tmp) and #a = :f',
- ExpressionAttributeNames={
- "#d" : 'is_dir',
- "#a" : 'is_authoritative',
- "#s" : 'child'
- },
- ExpressionAttributeValues={
- ":ath" : True,
- ":t" : True,
- ":f" : False,
- ":tmp": '_tmp'
- }
- )
- print("Updated item")
-except ClientError as e:
-    if e.response['Error']['Code'] == "ConditionalCheckFailedException":
-print ("Item ignored ")
-continue
+while True:
+    print("Start key is " + str(exclusiveStartKey))
+    if exclusiveStartKey == None:
+        response = table.scan(
+            FilterExpression='is_dir=:t AND is_authoritative=:f AND NOT begins_with(child, :cbw) AND NOT begins_with(child, :cbw2)',
+            ExpressionAttributeValues={ ":t": True, ":f": False, ":cbw": "_tmp", ":cbw2": "tmp"}
+        )
     else:
-raise
+        response = table.scan(
+            FilterExpression='is_dir=:t AND is_authoritative=:f AND NOT begins_with(child, :cbw) AND NOT begins_with(child, :cbw2)',
+            ExpressionAttributeValues={ ":t": True, ":f": False, ":cbw": "_tmp", ":cbw2": "tmp"},
+            ExclusiveStartKey=exclusiveStartKey
+        )
+    items=response['Items']
+    if 'LastEvaluatedKey' in response:
+        exclusiveStartKey=response['LastEvaluatedKey']
+    else:
+        exclusiveStartKey=None
+    print("Last key evaluated in this batch is " + str(exclusiveStartKey))
+    itemsUpdated = 0
+    for item in items:
+        if item['parent'].find('/tmp') > -1 or item['parent'].find('/_tmp') > -1 and item['parent'].find('/das/') > -1:
+            continue
+        if DEBUG:
+            print item['parent'], item['child']
+        try:
+            response = table.update_item(
+                Key={"parent": item['parent'], "child": item['child']},
+                UpdateExpression='SET #is_aut = :is_aut',
+                ExpressionAttributeNames={
+                    "#is_aut": 'is_authoritative'
+                },
+                ExpressionAttributeValues={
+                    ":is_aut": True
+                }
+            )
+            itemsUpdated = itemsUpdated + 1
+        except ClientError as e:
+            if e.response['Error']['Code'] == "ConditionalCheckFailedException":
+                print("Item ignored ")
+                continue
+            else:
+                raise
+        
+    print("Updated " + str(itemsUpdated) + " items")
+    if exclusiveStartKey == None:
+        break
